@@ -1,3 +1,5 @@
+# if two nodes having atleast one label should match match to the pods then pods will be distributed to each nodes (OR Condition)
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,6 +25,46 @@ spec:
                     operator: In
                     values:
                     - ssd
+                    - hdd
+      containers: 
+       - name: test
+         image: nginx
+-----------------
+-----------------
+
+#AND condition both labels  should be match to the node
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeaffi-sample
+  labels:
+    app: dev
+spec:
+  replicas: 2
+  selector:
+    matchLabels: 
+      app: dev
+  template:
+    metadata:
+      labels:
+        app: dev
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: disktype
+                    operator: In
+                    values:
+                    - ssd
+                  - key: colour
+                    operator: In
+                    values:
+                    
+                  
+                    - green
       containers: 
        - name: test
          image: nginx

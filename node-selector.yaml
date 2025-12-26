@@ -19,3 +19,26 @@ spec:
       containers:
         - name: dummy
           image: nginx
+---------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dep-nselec
+  labels:
+    app: dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dev
+  template:
+    metadata:
+      labels:
+        app: dev
+    spec:
+      nodeSelector:
+          type: ssd
+          env: prod
+      containers:
+        - name: dummy
+          image: nginx

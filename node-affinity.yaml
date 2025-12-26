@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeaffi-sample
+  labels:
+    app: dev
+spec:
+  replicas: 4
+  selector:
+    matchLabels: 
+      app: dev
+  template:
+    metadata:
+      labels:
+        app: dev
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: disktype
+                    operator: In
+                    values:
+                    - ssd
+      containers: 
+       - name: test
+         image: nginx

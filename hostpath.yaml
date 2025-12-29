@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hostpath-sample-pod
+  labels:
+    env: dev
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: node-01
+
+  containers:
+    - name: demo
+      image: busybox
+      command: ["/bin/sh", "-c", " echo 'This is for sample' > /data/file.txt && sleep 3600"]
+      volumeMounts:
+        - name: dummy-volume
+          mountPath: /data
+  volumes:
+    - name: dummy-volume
+      hostPath: 
+       path: /tmp/hsotpath-demo
+       type: DirectoryOrCreate
+       
+
+
+  ----------------------------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hostpath-sample-pod2
+  labels:
+    env: dev
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: node-01
+
+  containers:
+    - name: demo2
+      image: busybox
+      command: ["/bin/sh", "-c", "sleep 3600"]
+      volumeMounts:
+        - name: dummy-volume2
+          mountPath: /data
+  volumes:
+    - name: dummy-volume2
+      hostPath: 
+       path: /tmp/hsotpath-demo
+       

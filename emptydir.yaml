@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-emptydir
+  labels:
+    env: dev
+spec:
+  volumes:
+    - name: emptydemo-volume
+      emptyDir: {}
+  containers:
+    - name: busybox
+      image: busybox
+      command: ["/bin/sh", "-c", "sleep 3600"]
+      volumeMounts:
+        - mountPath: /data
+          name: emptydemo-volume
+    - name: busybox2
+      image: busybox
+      command: ["/bin/sh", "-c", "sleep 3600"]
+      volumeMounts:
+        - mountPath: /data
+          name: emptydemo-volume

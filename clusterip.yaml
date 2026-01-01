@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-demo
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+        - name: flask
+          image: docker.io/karthikeya91101/testing:v3
+          ports:
+            - containerPort: 5001
+
+------------------------------------------------
+------------------------------------------------
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-svc
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: flask
+  ports:
+    - port: 80
+      targetPort: 5001
+
+
